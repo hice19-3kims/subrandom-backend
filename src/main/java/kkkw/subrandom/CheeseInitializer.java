@@ -16,7 +16,7 @@ public class CheeseInitializer {
 
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
-    public void sauceInit() {
+    public void cheeseInit() {
         Cheese american = new Cheese(1L, "american");
         Cheese mozzarella = new Cheese(2L, "mozzarella");
         Cheese shred = new Cheese(3L, "shred");
