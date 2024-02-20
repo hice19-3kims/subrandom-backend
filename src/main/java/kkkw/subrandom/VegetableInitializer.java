@@ -16,7 +16,7 @@ public class VeggieInitializer {
 
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
-    public void sauceInit() {
+    public void veggieInit() {
         Vegetable cucumber = new Vegetable(1L, "cucumber");
         Vegetable jalapeno = new Vegetable(2L, "jalapeno");
         Vegetable lettuce = new Vegetable(3L, "lettuce");
