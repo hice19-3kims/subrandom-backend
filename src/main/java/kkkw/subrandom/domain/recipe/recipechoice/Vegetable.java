@@ -5,21 +5,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Vegetable {
 
     @Id
     @GeneratedValue
     @Column(name = "vegetable_id")
-    private Long VegetableId;
+    private Long id;
 
     @NotNull
     private String VegetableName;
+
+    @Builder
+    public Vegetable(Long id, String vegetableName) {
+        this.id = id;
+        VegetableName = vegetableName;
+    }
 }

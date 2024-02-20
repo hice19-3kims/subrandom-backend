@@ -1,6 +1,6 @@
 package kkkw.subrandom;
 
-import kkkw.subrandom.dao.recipechoice.VeggieDao;
+import kkkw.subrandom.dao.recipechoice.VegetableDao;
 import kkkw.subrandom.domain.recipe.recipechoice.Vegetable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class VeggieInitializer {
+public class VegetableInitializer {
 
-    private final VeggieDao veggieDao;
+    private final VegetableDao vegetableDao;
 
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
-    public void sauceInit() {
+    public void vegetableInit() {
         Vegetable cucumber = new Vegetable(1L, "cucumber");
         Vegetable jalapeno = new Vegetable(2L, "jalapeno");
         Vegetable lettuce = new Vegetable(3L, "lettuce");
@@ -26,13 +26,13 @@ public class VeggieInitializer {
         Vegetable pickle = new Vegetable(7L, "pickle");
         Vegetable tomato = new Vegetable(8L, "tomato");
 
-        veggieDao.save(cucumber);
-        veggieDao.save(jalapeno);
-        veggieDao.save(lettuce);
-        veggieDao.save(olive);
-        veggieDao.save(onion);
-        veggieDao.save(pepper);
-        veggieDao.save(pickle);
-        veggieDao.save(tomato);
+        vegetableDao.save(cucumber);
+        vegetableDao.save(jalapeno);
+        vegetableDao.save(lettuce);
+        vegetableDao.save(olive);
+        vegetableDao.save(onion);
+        vegetableDao.save(pepper);
+        vegetableDao.save(pickle);
+        vegetableDao.save(tomato);
     }
 }

@@ -3,16 +3,19 @@ package kkkw.subrandom.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import kkkw.subrandom.domain.recipe.Recipe;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Save {
 
     @Id
     @GeneratedValue
     @Column(name = "save_id")
-    private Long saveId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "member_id")
@@ -23,4 +26,11 @@ public class Save {
     @JoinColumn(name = "recipe_id")
     @NotNull
     private Recipe recipe;
+
+    @Builder
+    public Save(Long id, Member member, Recipe recipe) {
+        this.id = id;
+        this.member = member;
+        this.recipe = recipe;
+    }
 }

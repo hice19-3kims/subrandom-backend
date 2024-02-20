@@ -1,17 +1,13 @@
 package kkkw.subrandom.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member",
         uniqueConstraints = {
             @UniqueConstraint(
@@ -25,16 +21,24 @@ public class Member {
     @Id
     @GeneratedValue
     @Column(name = "member_id")
-    private Long memberId;
+    private Long id;
 
     @Column(unique = true)
-    @NotNull
+    @NotBlank
     private String email;
 
     @Column(unique = true)
-    @NotNull
+    @NotBlank
     private String name;
 
-    @NotNull
+    @NotBlank
     private String password;
+
+    @Builder
+    public Member(Long id, String email, String name, String password) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.password = password;
+    }
 }

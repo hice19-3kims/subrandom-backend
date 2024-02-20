@@ -3,18 +3,17 @@ package kkkw.subrandom.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import kkkw.subrandom.domain.recipe.Recipe;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review {
 
     @Id
     @GeneratedValue
     @Column(name = "review_id")
-    private Long reviewId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -31,4 +30,15 @@ public class Review {
 
     @Column(length = 2400)
     private String comment;
+
+    @Builder
+    public Review(Long id, Member member, Recipe recipe, Float score, String comment) {
+        this.id = id;
+        this.member = member;
+        this.recipe = recipe;
+        this.score = score;
+        this.comment = comment;
+    }
+
+
 }
