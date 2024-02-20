@@ -2,20 +2,17 @@ package kkkw.subrandom.domain.recipe;
 
 import jakarta.persistence.*;
 import kkkw.subrandom.domain.recipe.recipechoice.Cheese;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RecipeCheese {
 
     @Id
     @GeneratedValue
     @Column(name = "recipe_cheese_id")
-    private Long recipeCheeseId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cheese_id")
@@ -25,9 +22,24 @@ public class RecipeCheese {
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    //== 연관관계 편의 메서드 ==//
-    public void setCheese(Recipe recipe) {
+    @Builder
+    public RecipeCheese(Long id, Cheese cheese, Recipe recipe) {
+        this.id = id;
+        this.cheese = cheese;
         this.recipe = recipe;
-        recipe.getRecipeCheeses().add(this);
+    }
+
+    //==생성 메서드==//
+    public static RecipeCheese CreateRecipeCheese (Long id, Cheese cheese, Recipe recipe) {
+        RecipeCheese recipeCheese = new RecipeCheese();
+        recipeCheese.id = id;
+        recipeCheese.cheese = cheese;
+        recipeCheese.recipe = recipe;
+        recipe.getRecipeCheeses().add(recipeCheese);
+        return recipeCheese;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 }

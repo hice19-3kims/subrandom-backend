@@ -1,21 +1,19 @@
 package kkkw.subrandom.domain.recipe;
 
 import jakarta.persistence.*;
+import kkkw.subrandom.domain.recipe.recipechoice.Cheese;
 import kkkw.subrandom.domain.recipe.recipechoice.Sauce;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RecipeSauce {
 
     @Id
     @GeneratedValue
     @Column(name = "recipe_sauce_id")
-    private Long recipeSauceId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sauce_id")
@@ -25,9 +23,24 @@ public class RecipeSauce {
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    //== 연관관계 편의 메서드 ==//
+    @Builder
+    public RecipeSauce(Long id, Sauce sauce, Recipe recipe) {
+        this.id = id;
+        this.sauce = sauce;
+        this.recipe = recipe;
+    }
+
+    //==생성 메서드==//
+    public static RecipeSauce CreateRecipeSauce (Long id, Sauce sauce, Recipe recipe) {
+        RecipeSauce  recipeSauce = new RecipeSauce();
+        recipeSauce.id = id;
+        recipeSauce.sauce = sauce;
+        recipeSauce.recipe = recipe;
+        recipe.getRecipeSauces().add(recipeSauce);
+        return recipeSauce;
+    }
+
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
-        recipe.getRecipeSauces().add(this);
     }
 }
