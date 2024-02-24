@@ -1,6 +1,6 @@
-package kkkw.subrandom;
+package kkkw.subrandom.initializer;
 
-import kkkw.subrandom.dao.recipechoice.VegetableDao;
+import kkkw.subrandom.repository.recipechoice.VegetableRepository;
 import kkkw.subrandom.domain.recipe.recipechoice.Vegetable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class VegetableInitializer {
 
-    private final VegetableDao vegetableDao;
+    private final VegetableRepository vegetableRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
@@ -26,13 +26,13 @@ public class VegetableInitializer {
         Vegetable pickle = new Vegetable(7L, "pickle");
         Vegetable tomato = new Vegetable(8L, "tomato");
 
-        vegetableDao.save(cucumber);
-        vegetableDao.save(jalapeno);
-        vegetableDao.save(lettuce);
-        vegetableDao.save(olive);
-        vegetableDao.save(onion);
-        vegetableDao.save(pepper);
-        vegetableDao.save(pickle);
-        vegetableDao.save(tomato);
+        vegetableRepository.save(cucumber);
+        vegetableRepository.save(jalapeno);
+        vegetableRepository.save(lettuce);
+        vegetableRepository.save(olive);
+        vegetableRepository.save(onion);
+        vegetableRepository.save(pepper);
+        vegetableRepository.save(pickle);
+        vegetableRepository.save(tomato);
     }
 }

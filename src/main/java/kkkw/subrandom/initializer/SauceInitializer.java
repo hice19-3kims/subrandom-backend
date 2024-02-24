@@ -1,6 +1,6 @@
-package kkkw.subrandom;
+package kkkw.subrandom.initializer;
 
-import kkkw.subrandom.dao.recipechoice.SauceDao;
+import kkkw.subrandom.repository.recipechoice.SauceRepository;
 import kkkw.subrandom.domain.recipe.recipechoice.Sauce;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SauceInitializer {
 
-    private final SauceDao sauceDao;
+    private final SauceRepository sauceRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
@@ -32,19 +32,19 @@ public class SauceInitializer {
         Sauce sweetChilli = new Sauce(13L, "sweetChilli");
         Sauce yellowMustard = new Sauce(14L, "yellowMustard");
 
-        sauceDao.save(bbq);
-        sauceDao.save(chipotle);
-        sauceDao.save(honeyMustard);
-        sauceDao.save(horseradish);
-        sauceDao.save(hotChilli);
-        sauceDao.save(mayo);
-        sauceDao.save(olive);
-        sauceDao.save(onion);
-        sauceDao.save(pepper);
-        sauceDao.save(ranch);
-        sauceDao.save(redWine);
-        sauceDao.save(salt);
-        sauceDao.save(sweetChilli);
-        sauceDao.save(yellowMustard);
+        sauceRepository.save(bbq); // 서버 재시작 마다 JPA쿼리 계속 날아감 -> SQL 풀어서 할 것
+        sauceRepository.save(chipotle);
+        sauceRepository.save(honeyMustard);
+        sauceRepository.save(horseradish);
+        sauceRepository.save(hotChilli);
+        sauceRepository.save(mayo);
+        sauceRepository.save(olive);
+        sauceRepository.save(onion);
+        sauceRepository.save(pepper);
+        sauceRepository.save(ranch);
+        sauceRepository.save(redWine);
+        sauceRepository.save(salt);
+        sauceRepository.save(sweetChilli);
+        sauceRepository.save(yellowMustard);
     }
 }
