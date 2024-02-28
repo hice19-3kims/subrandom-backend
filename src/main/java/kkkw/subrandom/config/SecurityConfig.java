@@ -62,7 +62,8 @@ public class SecurityConfig {
                                 "/api/users/signup",
                                 "/api/recipe/save",
                                 "/api/reviews",
-                                "/api/reviews/detail/**"
+                                "/api/reviews/detail/**",
+                                "/api/reviews/heart"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sessionManagement ->
