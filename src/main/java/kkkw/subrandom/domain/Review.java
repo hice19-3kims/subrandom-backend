@@ -1,5 +1,6 @@
 package kkkw.subrandom.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import kkkw.subrandom.domain.recipe.Recipe;
@@ -18,11 +19,13 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     @NotNull
+    @JsonIgnore
     private Member member;
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     @NotNull
+    @JsonIgnore
     private Recipe recipe;
 
     @NotNull

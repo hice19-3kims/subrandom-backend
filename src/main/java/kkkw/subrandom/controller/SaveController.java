@@ -27,7 +27,7 @@ public class SaveController {
     public ResponseEntity<Save> recipeSave(
             @Valid @RequestBody RecipeDto recipeDto
     ) {
-        Recipe recipe = recipeService.createRecipe(recipeDto);
-        return ResponseEntity.ok(saveService.createSave(recipe));
+        Recipe recipe = recipeService.addRecipe(recipeDto);
+        return ResponseEntity.ok(saveService.addMySave(recipe));
     }
 }

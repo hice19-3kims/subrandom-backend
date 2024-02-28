@@ -16,12 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SaveService {
 
-    private final RecipeRepository recipeRepository;
     private final MemberRepository memberRepository;
     private final SaveRepository saveRepository;
 
     @Transactional
-    public Save createSave(Recipe recipe) {
+    public Save addMySave(Recipe recipe) {
 
         Save save = Save.builder()
                 .member(memberRepository.findOneWithAuthoritiesByEmail(SecurityUtil.getCurrentUsername().get()).get())

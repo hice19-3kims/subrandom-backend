@@ -22,6 +22,6 @@ public class RecipeController {
     public ResponseEntity<Recipe> recipeCreateResponse(
             @Valid @RequestBody RecipeDto recipeDto
     ) {
-        return ResponseEntity.ok(recipeService.createRecipe(recipeDto));
+        return ResponseEntity.ok(recipeService.addRecipe(recipeDto));
     }
 }

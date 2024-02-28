@@ -28,7 +28,7 @@ public class RecipeService {
     private final VegetableRepository vegetableRepository;
 
     @Transactional
-    public Recipe createRecipe(RecipeDto recipeDto) {
+    public Recipe addRecipe(RecipeDto recipeDto) {
         Recipe recipe = Recipe.builder()
                 .bread(recipeDto.getBread())
                 .mainStuff(recipeDto.getMainStuff())
