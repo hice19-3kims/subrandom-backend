@@ -1,5 +1,6 @@
 package kkkw.subrandom.domain.recipe;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import kkkw.subrandom.domain.recipe.recipechoice.Vegetable;
 import lombok.*;
@@ -14,10 +15,12 @@ public class RecipeVegetable {
     @Column(name = "recipe_vegetable_id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vegetable_id")
     private Vegetable vegetable;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
@@ -30,9 +33,8 @@ public class RecipeVegetable {
     }
 
     //==생성 메서드==//
-    public static RecipeVegetable recipeVegetable(Long id, Vegetable vegetable, Recipe recipe) {
+    public static RecipeVegetable CreateRecipeVegetable(Vegetable vegetable, Recipe recipe) {
         RecipeVegetable recipeVegetable = new RecipeVegetable();
-        recipeVegetable.id = id;
         recipeVegetable.vegetable = vegetable;
         recipeVegetable.recipe = recipe;
         recipe.getRecipeVegetables().add(recipeVegetable);

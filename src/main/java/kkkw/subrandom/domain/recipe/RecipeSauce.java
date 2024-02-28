@@ -1,5 +1,6 @@
 package kkkw.subrandom.domain.recipe;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import kkkw.subrandom.domain.recipe.recipechoice.Cheese;
 import kkkw.subrandom.domain.recipe.recipechoice.Sauce;
@@ -11,14 +12,16 @@ import lombok.*;
 public class RecipeSauce {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_sauce_id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sauce_id")
     private Sauce sauce;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
@@ -31,9 +34,8 @@ public class RecipeSauce {
     }
 
     //==생성 메서드==//
-    public static RecipeSauce CreateRecipeSauce (Long id, Sauce sauce, Recipe recipe) {
+    public static RecipeSauce CreateRecipeSauce (Sauce sauce, Recipe recipe) {
         RecipeSauce  recipeSauce = new RecipeSauce();
-        recipeSauce.id = id;
         recipeSauce.sauce = sauce;
         recipeSauce.recipe = recipe;
         recipe.getRecipeSauces().add(recipeSauce);

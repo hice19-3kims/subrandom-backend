@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Save {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "save_id")
     private Long id;
 
