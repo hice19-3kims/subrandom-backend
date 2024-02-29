@@ -2,7 +2,7 @@ package kkkw.subrandom.service;
 
 
 import kkkw.subrandom.domain.Review;
-import kkkw.subrandom.dto.ReviewDto;
+import kkkw.subrandom.dto.ReviewCreateDto;
 import kkkw.subrandom.repository.HeartRepository;
 import kkkw.subrandom.repository.MemberRepository;
 import kkkw.subrandom.repository.ReviewRepository;
@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -28,14 +29,26 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
+    public List<Review> findReviewsByMemberId(Long memberId) {
+        return reviewRepository.findByMemberId(memberId);
+    }
+
+    public List<Review> findReviewsByMemberHeart(Long memberId) {
+
+        List<Review> result = new ArrayList<>();
+        heartRepository.findByMemberId(memberId).forEach(h -> result.add(h.getReview()));
+        return result;
+
+    }
+
     @Transactional
-    public Review addMyReview(ReviewDto reviewDto) {
+    public Review addMyReview(ReviewCreateDto reviewCreateDto) {
 
         Review review = Review.builder()
                 .member(memberRepository.findOneWithAuthoritiesByEmail(SecurityUtil.getCurrentUsername().get()).get())
-                .recipe(recipeRepository.findById(reviewDto.getRecipeId()).get())
-                .score(reviewDto.getScore())
-                .comment(reviewDto.getComment())
+                .recipe(recipeRepository.findById(reviewCreateDto.getRecipeId()).get())
+                .score(reviewCreateDto.getScore())
+                .comment(reviewCreateDto.getComment())
                 .build();
 
         return reviewRepository.save(review);

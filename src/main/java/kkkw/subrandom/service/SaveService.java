@@ -2,7 +2,6 @@ package kkkw.subrandom.service;
 
 import kkkw.subrandom.domain.Save;
 import kkkw.subrandom.domain.recipe.Recipe;
-import kkkw.subrandom.dto.RecipeDto;
 import kkkw.subrandom.repository.MemberRepository;
 import kkkw.subrandom.repository.SaveRepository;
 import kkkw.subrandom.repository.recipe.RecipeRepository;

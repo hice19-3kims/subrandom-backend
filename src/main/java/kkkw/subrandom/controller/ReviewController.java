@@ -3,10 +3,8 @@ package kkkw.subrandom.controller;
 import jakarta.validation.Valid;
 import kkkw.subrandom.domain.Heart;
 import kkkw.subrandom.domain.Review;
-import kkkw.subrandom.domain.Save;
-import kkkw.subrandom.domain.recipe.Recipe;
-import kkkw.subrandom.dto.RecipeDto;
-import kkkw.subrandom.dto.ReviewDto;
+import kkkw.subrandom.dto.ReviewCreateDto;
+import kkkw.subrandom.dto.ReviewGetDto;
 import kkkw.subrandom.repository.ReviewRepository;
 import kkkw.subrandom.service.HeartService;
 import kkkw.subrandom.service.RecipeService;
@@ -17,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/reviews")
@@ -31,18 +30,23 @@ public class ReviewController {
     @PostMapping("/write")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<Review> reviewAdd(
-            @Valid @RequestBody ReviewDto reviewDto
+            @Valid @RequestBody ReviewCreateDto reviewCreateDto
     ) {
-        Review review = reviewService.addMyReview(reviewDto);
+        Review review = reviewService.addMyReview(reviewCreateDto);
         return ResponseEntity.ok(review);
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Review>> reviewList() {
-        return ResponseEntity.ok(reviewService.findReviews());
+    public ResponseEntity<List<ReviewGetDto>> reviewList() {
+        List<Review> reviews = reviewRepository.findAll();
+        List<ReviewGetDto> result = reviews.stream()
+                .map(r -> new ReviewGetDto(r))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/detail/{reviewId}")
+    @GetMapping("/detail/comment/{reviewId}")
     public ResponseEntity<String> reviewCommentDetail(@PathVariable Long reviewId) {
         return ResponseEntity.ok(reviewService.findReviewComment(reviewId));
     }
@@ -52,4 +56,5 @@ public class ReviewController {
     public ResponseEntity<Heart> heartAdd(@RequestBody Long reviewId) {
         return ResponseEntity.ok(heartService.addMyHeart(reviewRepository.findById(reviewId).get()));
     }
+
 }

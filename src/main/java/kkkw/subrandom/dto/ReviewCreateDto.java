@@ -3,14 +3,12 @@ package kkkw.subrandom.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewDto {
+public class ReviewCreateDto {
 
     @NotNull
     private Long recipeId;

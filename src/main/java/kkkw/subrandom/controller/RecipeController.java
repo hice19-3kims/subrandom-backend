@@ -2,7 +2,7 @@ package kkkw.subrandom.controller;
 
 import jakarta.validation.Valid;
 import kkkw.subrandom.domain.recipe.Recipe;
-import kkkw.subrandom.dto.RecipeDto;
+import kkkw.subrandom.dto.RecipeCreateDto;
 import kkkw.subrandom.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +20,8 @@ public class RecipeController {
 
     @PostMapping("/create")
     public ResponseEntity<Recipe> recipeCreateResponse(
-            @Valid @RequestBody RecipeDto recipeDto
+            @Valid @RequestBody RecipeCreateDto recipeCreateDto
     ) {
-        return ResponseEntity.ok(recipeService.addRecipe(recipeDto));
+        return ResponseEntity.ok(recipeService.addRecipe(recipeCreateDto));
     }
 }

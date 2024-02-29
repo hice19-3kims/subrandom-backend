@@ -22,10 +22,10 @@ public class HeartService {
     @Transactional
     public Heart addMyHeart(Review review) {
 
-        Heart heart = Heart.builder()
-                .member(memberRepository.findOneWithAuthoritiesByEmail(SecurityUtil.getCurrentUsername().get()).get())
-                .review(review)
-                .build();
+        Heart heart = Heart.createHeart(
+                memberRepository.findOneWithAuthoritiesByEmail(SecurityUtil.getCurrentUsername().get()).get(),
+                review
+        );
 
         return heartRepository.save(heart);
     }

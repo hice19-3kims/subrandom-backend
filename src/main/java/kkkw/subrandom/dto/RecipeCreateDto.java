@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RecipeDto {
+public class RecipeCreateDto {
 
     @NotNull
     private String bread;
