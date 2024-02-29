@@ -61,6 +61,7 @@ public class SecurityConfig {
                                 "/api/authenticate",
                                 "/api/users/signup",
                                 "/api/recipe/save",
+                                "/api/recipe/roulette",
                                 "/api/reviews",
                                 "/api/reviews/detail/**",
                                 "/api/reviews/heart"
