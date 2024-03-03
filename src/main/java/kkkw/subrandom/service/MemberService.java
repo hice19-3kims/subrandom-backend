@@ -4,7 +4,6 @@ package kkkw.subrandom.service;
 import kkkw.subrandom.domain.Authority;
 import kkkw.subrandom.domain.Member;
 import kkkw.subrandom.dto.MemberDto;
-import kkkw.subrandom.exceptions.MemberNotFoundException;
 import kkkw.subrandom.repository.HeartRepository;
 import kkkw.subrandom.repository.MemberRepository;
 import kkkw.subrandom.repository.ReviewRepository;
@@ -32,13 +31,11 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     public Member findMember(Long memberId){
-//        if(memberRepository.findById(userId).isPresent())
             return memberRepository.findById(memberId).get();
-//        else throw new MemberNotFoundException();
     }
 
     @Transactional
-    public Member signup(MemberDto memberDto) {
+    public Member addMember(MemberDto memberDto) {
         if (memberRepository.findOneWithAuthoritiesByEmail(memberDto.getEmail()).orElse(null) != null) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다.");
         }
@@ -59,12 +56,12 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member getMemberWithAuthorities(String email) {
+    public Member findMemberWithAuthorities(String email) {
         return memberRepository.findOneWithAuthoritiesByEmail(email).orElse(null);
     }
 
     @Transactional(readOnly = true)
-    public Member getMyMemberWithAuthorities() {
+    public Member findMyMemberWithAuthorities() {
         return SecurityUtil.getCurrentUsername()
                 .flatMap(memberRepository::findOneWithAuthoritiesByEmail)
                 .orElseThrow(() -> new RuntimeException("Member not found"));

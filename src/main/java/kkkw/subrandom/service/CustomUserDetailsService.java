@@ -24,11 +24,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return memberRepository.findOneWithAuthoritiesByEmail(email)
-                .map(user -> createUser(email, user))
+                .map(user -> addUser(email, user))
                 .orElseThrow(() -> new UsernameNotFoundException(email + " -> 데이터베이스에서 찾을 수 없습니다."));
     }
 
-    private org.springframework.security.core.userdetails.User createUser(String email, Member member) {
+    private org.springframework.security.core.userdetails.User addUser(String email, Member member) {
         if (!member.isActivated()) {
             throw new RuntimeException(email + " -> 활성화되어 있지 않습니다.");
         }
