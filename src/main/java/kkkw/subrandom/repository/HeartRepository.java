@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface HeartRepository extends JpaRepository<Heart, Long> {
 
-    List<Heart> findByMember(Long member);
-    List<Heart> findByReview(Long review);
+    List<Heart> findByMemberId(Long memberId);
+    List<Heart> findByReviewId(Long reviewId);
 }

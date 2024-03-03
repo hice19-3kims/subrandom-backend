@@ -1,9 +1,12 @@
 package kkkw.subrandom.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,7 +22,7 @@ import lombok.*;
 public class Member {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
@@ -34,11 +37,24 @@ public class Member {
     @NotBlank
     private String password;
 
+    @JsonIgnore
+    @Column(name = "activated")
+    private boolean activated;
+
+    @ManyToMany
+    @JoinTable(
+            name = "member_authority",
+            joinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
+
     @Builder
-    public Member(Long id, String email, String name, String password) {
+    public Member(Long id, String email, String name, String password, Set<Authority> authorities, boolean activated) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.password = password;
+        this.authorities = authorities;
+        this.activated = activated;
     }
 }

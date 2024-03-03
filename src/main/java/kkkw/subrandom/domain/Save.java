@@ -3,17 +3,15 @@ package kkkw.subrandom.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import kkkw.subrandom.domain.recipe.Recipe;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Save {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "save_id")
     private Long id;
 

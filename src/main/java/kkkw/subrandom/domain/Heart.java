@@ -2,17 +2,15 @@ package kkkw.subrandom.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Heart {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "heart_id")
     private Long id;
 
@@ -31,5 +29,15 @@ public class Heart {
         this.id = id;
         this.member = member;
         this.review = review;
+    }
+
+    //==생성 메서드 + 리뷰 좋아요 수 로직==//
+    public static Heart createHeart(Member member, Review review) {
+        Heart heart = Heart.builder()
+                .member(member)
+                .review(review)
+                .build();
+        review.countHearts();
+        return heart;
     }
 }
