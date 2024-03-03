@@ -52,7 +52,84 @@ public class RecipeService {
             RecipeVegetable.CreateRecipeVegetable(vegetable, recipe);
         }
 
-        return recipeRepository.save(recipe);
+        Optional<Recipe> result = findDuplicateRecipe(recipe);
+        return result.orElseGet(() -> recipeRepository.save(recipe));
+    }
+
+    public Optional<Recipe> findDuplicateRecipe(Recipe recipe) {
+
+        List<Recipe> recipeDuplicates = new ArrayList<>();
+        recipeRepository.findByBreadAndMainStuff(recipe.getBread(), recipe.getMainStuff())
+                .forEach(r -> recipeDuplicates.add(r));
+        if (recipeDuplicates.isEmpty()) return Optional.empty();
+
+        Set<Long> newRecipeSauces = new HashSet<>();
+        Set<Long> SaucesRetain = new HashSet<>();
+        recipe.getRecipeSauces().forEach(rs -> newRecipeSauces.add(rs.getSauce().getId()));
+        recipe.getRecipeSauces().forEach(rs -> SaucesRetain.add(rs.getSauce().getId()));
+
+        int size = recipeDuplicates.size();
+        for (int i = 0; i < size; i++) {
+            Set<Long> duplicateListSauces = new HashSet<>();
+            recipeDuplicates.get(i)
+                    .getRecipeSauces()
+                    .forEach(rs -> duplicateListSauces.add(rs.getSauce().getId()));
+            SaucesRetain.retainAll(duplicateListSauces);
+            if (!(SaucesRetain.size() == newRecipeSauces.size() && SaucesRetain.size() == duplicateListSauces.size())) {
+                recipeDuplicates.remove(i);
+                i--;
+                size--;
+            }
+        }
+        if (recipeDuplicates.isEmpty()) {
+            return Optional.empty();
+        }
+
+
+        Set<Long> newRecipeCheeses = new HashSet<>();
+        Set<Long> CheesesRetain = new HashSet<>();
+        recipe.getRecipeCheeses().forEach(rc -> newRecipeCheeses.add(rc.getCheese().getId()));
+        recipe.getRecipeCheeses().forEach(rc -> CheesesRetain.add(rc.getCheese().getId()));
+
+        size = recipeDuplicates.size();
+        for (int i = 0; i < size; i++) {
+            Set<Long> duplicateListCheeses = new HashSet<>();
+            recipeDuplicates.get(i)
+                    .getRecipeCheeses()
+                    .forEach(rc -> duplicateListCheeses.add(rc.getCheese().getId()));
+            CheesesRetain.retainAll(duplicateListCheeses);
+            if (!(CheesesRetain.size() == newRecipeCheeses.size() && CheesesRetain.size() == duplicateListCheeses.size())) {
+                recipeDuplicates.remove(i);
+                i--;
+                size--;
+            }
+        }
+        if (recipeDuplicates.isEmpty()) {
+            return Optional.empty();
+        }
+
+
+        Set<Long> newRecipeVegetables = new HashSet<>();
+        Set<Long> VegetablesRetain = new HashSet<>();
+        recipe.getRecipeVegetables().forEach(rv -> newRecipeVegetables.add(rv.getVegetable().getId()));
+        recipe.getRecipeVegetables().forEach(rv -> VegetablesRetain.add(rv.getVegetable().getId()));
+
+        size = recipeDuplicates.size();
+        for (int i = 0; i < size; i++) {
+            Set<Long> duplicateListVegetables = new HashSet<>();
+            recipeDuplicates.get(i)
+                    .getRecipeVegetables()
+                    .forEach(rv -> duplicateListVegetables.add(rv.getVegetable().getId()));
+            VegetablesRetain.retainAll(duplicateListVegetables);
+            if (!(VegetablesRetain.size() == newRecipeVegetables.size() && VegetablesRetain.size() == duplicateListVegetables.size())) {
+                recipeDuplicates.remove(i);
+                i--;
+                size--;
+            }
+        }
+        if (recipeDuplicates.isEmpty()) {
+            return Optional.empty();
+        } else return Optional.ofNullable(recipeDuplicates.get(0));
     }
 
     public List<Recipe> findSavedRecipesByMemberId(Long memberId) {
