@@ -28,22 +28,16 @@ public class MemberController {
     private final RecipeService recipeService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Member> signup(
+    public ResponseEntity<Member> memberAdd(
             @Valid @RequestBody MemberDto memberDto
     ) {
-        return ResponseEntity.ok(memberService.signup(memberDto));
-    }
-
-    @GetMapping("/me")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<Member> getMyUserInfo() {
-        return ResponseEntity.ok(memberService.getMyMemberWithAuthorities());
+        return ResponseEntity.ok(memberService.addMember(memberDto));
     }
 
     @GetMapping("/me/reviews")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<List<ReviewGetDto>> getMyReviews() {
-        Member member = memberService.getMyMemberWithAuthorities();
+    public ResponseEntity<List<ReviewGetDto>> memberReviewList() {
+        Member member = memberService.findMyMemberWithAuthorities();
         List<Review> reviews = reviewService.findReviewsByMemberId(member.getId());
 
         List<ReviewGetDto> result = reviews.stream()
@@ -55,8 +49,8 @@ public class MemberController {
 
     @GetMapping("/me/recipes")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<List<RecipeGetDto>> getMySavedRecipes() {
-        Member member = memberService.getMyMemberWithAuthorities();
+    public ResponseEntity<List<RecipeGetDto>> memberRecipeList() {
+        Member member = memberService.findMyMemberWithAuthorities();
         List<Recipe> recipes = recipeService.findSavedRecipesByMemberId(member.getId());
 
         List<RecipeGetDto> result = recipes.stream()
@@ -68,8 +62,8 @@ public class MemberController {
 
     @GetMapping("/me/liked")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<List<ReviewGetDto>> getMyLikedReviews() {
-        Member member = memberService.getMyMemberWithAuthorities();
+    public ResponseEntity<List<ReviewGetDto>> memberHeartReviewList() {
+        Member member = memberService.findMyMemberWithAuthorities();
         List<Review> reviews = reviewService.findReviewsByMemberHeart(member.getId());
 
         List<ReviewGetDto> result = reviews.stream()
@@ -79,10 +73,18 @@ public class MemberController {
         return ResponseEntity.ok(result);
     }
 
+
+
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<Member> memberMyDetails() {
+        return ResponseEntity.ok(memberService.findMyMemberWithAuthorities());
+    }
+
     @GetMapping("/{email}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Member> getUserInfo(@PathVariable String email) {
-        return ResponseEntity.ok(memberService.getMemberWithAuthorities(email));
+    public ResponseEntity<Member> memberDetails(@PathVariable String email) {
+        return ResponseEntity.ok(memberService.findMemberWithAuthorities(email));
     }
 
 }

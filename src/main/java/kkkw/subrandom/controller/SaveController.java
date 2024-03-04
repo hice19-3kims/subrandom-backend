@@ -24,7 +24,7 @@ public class SaveController {
 
     @PostMapping("/save")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<Save> recipeSave(
+    public ResponseEntity<Save> saveAdd(
             @Valid @RequestBody RecipeCreateDto recipeCreateDto
     ) {
         Recipe recipe = recipeService.addRecipe(recipeCreateDto);

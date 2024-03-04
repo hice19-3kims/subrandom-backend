@@ -46,14 +46,9 @@ public class ReviewController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/detail/comment/{reviewId}")
-    public ResponseEntity<String> reviewCommentDetail(@PathVariable Long reviewId) {
-        return ResponseEntity.ok(reviewService.findReviewComment(reviewId));
-    }
-
     @PostMapping("/heart")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<Heart> heartAdd(@RequestBody Long reviewId) {
+    public ResponseEntity<Heart> reviewAddHeart(@RequestBody Long reviewId) {
         return ResponseEntity.ok(heartService.addMyHeart(reviewRepository.findById(reviewId).get()));
     }
 
