@@ -10,6 +10,7 @@ import kkkw.subrandom.domain.recipe.recipechoice.Cheese;
 import kkkw.subrandom.domain.recipe.recipechoice.Sauce;
 import kkkw.subrandom.domain.recipe.recipechoice.Vegetable;
 import kkkw.subrandom.dto.RecipeCreateDto;
+import kkkw.subrandom.exceptions.RecipeNotFoundException;
 import kkkw.subrandom.repository.SaveRepository;
 import kkkw.subrandom.repository.recipe.RecipeRepository;
 import kkkw.subrandom.repository.recipechoice.CheeseRepository;
@@ -132,13 +133,6 @@ public class RecipeService {
         } else return Optional.ofNullable(recipeDuplicates.get(0));
     }
 
-    public List<Recipe> findSavedRecipesByMemberId(Long memberId) {
-
-        List<Recipe> result = new ArrayList<>();
-        saveRepository.findByMemberId(memberId).forEach(s -> result.add(s.getRecipe()));
-        return result;
-    }
-
     public RecipeCreateDto generateRandomRecipe() {
         Random random = new Random();
 
@@ -216,4 +210,16 @@ public class RecipeService {
         return result;
     }
 
+    public Recipe findRecipe (Long recipeId) {
+        if(recipeRepository.findById(recipeId).isPresent())
+            return recipeRepository.findById(recipeId).get();
+        else throw new RecipeNotFoundException();
+    }
+
+    public List<Recipe> findSavedRecipesByMemberId(Long memberId) {
+
+        List<Recipe> result = new ArrayList<>();
+        saveRepository.findByMemberId(memberId).forEach(s -> result.add(s.getRecipe()));
+        return result;
+    }
 }

@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import kkkw.subrandom.domain.recipe.Recipe;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -37,17 +39,26 @@ public class Review {
     @NotNull
     private Long heartCounts;
 
+    @NotNull
+    private LocalDateTime date;
+
+
     @Builder
-    public Review(Long id, Member member, Recipe recipe, Float score, String comment) {
+    public Review(Long id, Member member, Recipe recipe, Float score, String comment, Long heartCounts, LocalDateTime date) {
         this.id = id;
         this.member = member;
         this.recipe = recipe;
         this.score = score;
         this.comment = comment;
-        this.heartCounts = 0L;
+        this.heartCounts = heartCounts;
+        this.date = date;
     }
 
     public void countHearts() {
         this.heartCounts++;
+    }
+
+    public void cancelHearts(){
+        this.heartCounts--;
     }
 }

@@ -2,6 +2,7 @@ package kkkw.subrandom.service;
 
 import kkkw.subrandom.domain.Save;
 import kkkw.subrandom.domain.recipe.Recipe;
+import kkkw.subrandom.exceptions.SaveNotFoundException;
 import kkkw.subrandom.repository.MemberRepository;
 import kkkw.subrandom.repository.SaveRepository;
 import kkkw.subrandom.repository.recipe.RecipeRepository;
@@ -9,6 +10,8 @@ import kkkw.subrandom.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,12 +23,16 @@ public class SaveService {
 
     @Transactional
     public Save addMySave(Recipe recipe) {
-
         Save save = Save.builder()
                 .member(memberRepository.findOneWithAuthoritiesByEmail(SecurityUtil.getCurrentUsername().get()).get())
                 .recipe(recipe)
                 .build();
-
         return saveRepository.save(save);
+    }
+
+    public List<Save> findSavesByMember(Long memberId) {
+        if(!saveRepository.findByMemberId(memberId).isEmpty())
+            return saveRepository.findByMemberId(memberId);
+        else throw new SaveNotFoundException();
     }
 }
