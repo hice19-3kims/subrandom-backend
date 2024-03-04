@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface SaveRepository extends JpaRepository<Save, Long> {
     List<Save> findByMemberId(Long memberId);
-
 }

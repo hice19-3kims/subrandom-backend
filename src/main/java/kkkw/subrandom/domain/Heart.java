@@ -40,4 +40,9 @@ public class Heart {
         review.countHearts();
         return heart;
     }
+
+    //==좋아요 취소 메서드==//
+    public void cancelHeart() {
+        this.getReview().cancelHearts();
+    }
 }
