@@ -31,7 +31,7 @@ public class ReviewService {
     @Transactional
     public Review addMyReview(ReviewCreateDto reviewCreateDto) {
         Review review = Review.builder()
-                .member(memberRepository.findOneWithAuthoritiesByEmail(SecurityUtil.getCurrentUsername().get()).get())
+                .member(memberRepository.findOneWithAuthoritiesByEmail(SecurityUtil.getCurrentUserEmail()).get())
                 .recipe(recipeRepository.findById(reviewCreateDto.getRecipeId()).get())
                 .score(reviewCreateDto.getScore())
                 .comment(reviewCreateDto.getComment())

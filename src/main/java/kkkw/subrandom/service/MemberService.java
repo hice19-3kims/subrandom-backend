@@ -55,16 +55,13 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    @Transactional(readOnly = true)
     public Member findMemberWithAuthorities(String email) {
         return memberRepository.findOneWithAuthoritiesByEmail(email).orElse(null);
     }
 
-    @Transactional(readOnly = true)
     public Member findMyMemberWithAuthorities() {
-        return SecurityUtil.getCurrentUsername()
-                .flatMap(memberRepository::findOneWithAuthoritiesByEmail)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+        String email = SecurityUtil.getCurrentUserEmail();
+        return memberRepository.findOneWithAuthoritiesByEmail(email).orElse(null);
     }
 
 }
