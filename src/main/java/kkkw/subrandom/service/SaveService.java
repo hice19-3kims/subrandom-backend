@@ -24,7 +24,7 @@ public class SaveService {
     @Transactional
     public Save addMySave(Recipe recipe) {
         Save save = Save.builder()
-                .member(memberRepository.findOneWithAuthoritiesByEmail(SecurityUtil.getCurrentUsername().get()).get())
+                .member(memberRepository.findOneWithAuthoritiesByEmail(SecurityUtil.getCurrentUserEmail()).get())
                 .recipe(recipe)
                 .build();
         return saveRepository.save(save);
