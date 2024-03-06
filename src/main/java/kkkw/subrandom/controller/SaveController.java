@@ -1,9 +1,11 @@
 package kkkw.subrandom.controller;
 
 import jakarta.validation.Valid;
+import kkkw.subrandom.domain.Member;
 import kkkw.subrandom.domain.Save;
 import kkkw.subrandom.domain.recipe.Recipe;
 import kkkw.subrandom.dto.RecipeCreateDto;
+import kkkw.subrandom.service.MemberService;
 import kkkw.subrandom.service.RecipeService;
 import kkkw.subrandom.service.SaveService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class SaveController {
 
     private final RecipeService recipeService;
     private final SaveService saveService;
+    private final MemberService memberService;
 
     @PostMapping("/save")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -28,6 +31,7 @@ public class SaveController {
             @Valid @RequestBody RecipeCreateDto recipeCreateDto
     ) {
         Recipe recipe = recipeService.addRecipe(recipeCreateDto);
-        return ResponseEntity.ok(saveService.addMySave(recipe));
+        Member member = memberService.findMyMemberWithAuthorities();
+        return ResponseEntity.ok(saveService.addSave(member, recipe));
     }
 }

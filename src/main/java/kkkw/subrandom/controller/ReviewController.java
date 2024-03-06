@@ -2,11 +2,14 @@ package kkkw.subrandom.controller;
 
 import jakarta.validation.Valid;
 import kkkw.subrandom.domain.Heart;
+import kkkw.subrandom.domain.Member;
 import kkkw.subrandom.domain.Review;
+import kkkw.subrandom.domain.recipe.Recipe;
 import kkkw.subrandom.dto.ReviewCreateDto;
 import kkkw.subrandom.dto.ReviewGetDto;
 import kkkw.subrandom.repository.ReviewRepository;
 import kkkw.subrandom.service.HeartService;
+import kkkw.subrandom.service.MemberService;
 import kkkw.subrandom.service.RecipeService;
 import kkkw.subrandom.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +29,16 @@ public class ReviewController {
     private final ReviewRepository reviewRepository;
     private final ReviewService reviewService;
     private final HeartService heartService;
+    private final MemberService memberService;
 
     @PostMapping("/write")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<Review> reviewAdd(
             @Valid @RequestBody ReviewCreateDto reviewCreateDto
     ) {
-        Review review = reviewService.addMyReview(reviewCreateDto);
+        Member member = memberService.findMyMemberWithAuthorities();
+        Recipe recipe = recipeService.findRecipeByIdOrThrow(reviewCreateDto.getRecipeId());
+        Review review = reviewService.addReview(member, recipe, reviewCreateDto);
         return ResponseEntity.ok(review);
     }
 
@@ -49,7 +55,9 @@ public class ReviewController {
     @PostMapping("/heart")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<Heart> reviewAddHeart(@RequestBody Long reviewId) {
-        return ResponseEntity.ok(heartService.addMyHeart(reviewRepository.findById(reviewId).get()));
+        Member member = memberService.findMyMemberWithAuthorities();
+        Review review = reviewService.findReview(reviewId);
+        return ResponseEntity.ok(heartService.changeHeart(member, review));
     }
 
 }

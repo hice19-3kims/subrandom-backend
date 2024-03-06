@@ -210,16 +210,21 @@ public class RecipeService {
         return result;
     }
 
-    public Recipe findRecipe (Long recipeId) {
-        if(recipeRepository.findById(recipeId).isPresent())
-            return recipeRepository.findById(recipeId).get();
-        else throw new RecipeNotFoundException();
-    }
-
     public List<Recipe> findSavedRecipesByMemberId(Long memberId) {
 
         List<Recipe> result = new ArrayList<>();
         saveRepository.findByMemberId(memberId).forEach(s -> result.add(s.getRecipe()));
         return result;
+    }
+
+    public Recipe findRecipeByIdOrThrow(Long recipeId) {
+        Optional<Recipe> optionalRecipe = recipeRepository
+                .findById(recipeId);
+
+        if (optionalRecipe.isEmpty()){
+            throw new RecipeNotFoundException();
+        }
+
+        return optionalRecipe.get();
     }
 }

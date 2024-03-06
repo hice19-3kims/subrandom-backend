@@ -1,15 +1,14 @@
 package kkkw.subrandom.service;
 
 
+import kkkw.subrandom.domain.Member;
 import kkkw.subrandom.domain.Review;
+import kkkw.subrandom.domain.recipe.Recipe;
 import kkkw.subrandom.dto.ReviewCreateDto;
 import kkkw.subrandom.exceptions.HeartNotFoundException;
 import kkkw.subrandom.exceptions.ReviewNotFoundException;
 import kkkw.subrandom.repository.HeartRepository;
-import kkkw.subrandom.repository.MemberRepository;
 import kkkw.subrandom.repository.ReviewRepository;
-import kkkw.subrandom.repository.recipe.RecipeRepository;
-import kkkw.subrandom.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,14 +24,12 @@ public class ReviewService {
 
     public final ReviewRepository reviewRepository;
     public final HeartRepository heartRepository;
-    public final MemberRepository memberRepository;
-    private final RecipeRepository recipeRepository;
 
     @Transactional
-    public Review addMyReview(ReviewCreateDto reviewCreateDto) {
+    public Review addReview(Member member, Recipe recipe, ReviewCreateDto reviewCreateDto) {
         Review review = Review.builder()
-                .member(memberRepository.findOneWithAuthoritiesByEmail(SecurityUtil.getCurrentUserEmail()).get())
-                .recipe(recipeRepository.findById(reviewCreateDto.getRecipeId()).get())
+                .member(member)
+                .recipe(recipe)
                 .score(reviewCreateDto.getScore())
                 .comment(reviewCreateDto.getComment())
                 .heartCounts(0L)
@@ -40,10 +37,6 @@ public class ReviewService {
                 .build();
         return reviewRepository.save(review);
     }
-
-//    public List<Review> findReviews() {
-//        return reviewRepository.findAll();
-//    }
 
     public Review findReview(Long reviewId) {
         if(reviewRepository.findById(reviewId).isPresent())
