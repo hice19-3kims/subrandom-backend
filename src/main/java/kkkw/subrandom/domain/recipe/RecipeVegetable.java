@@ -11,7 +11,7 @@ import lombok.*;
 public class RecipeVegetable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_vegetable_id")
     private Long id;
 
