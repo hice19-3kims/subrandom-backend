@@ -13,6 +13,8 @@ import kkkw.subrandom.service.MemberService;
 import kkkw.subrandom.service.RecipeService;
 import kkkw.subrandom.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -43,13 +45,11 @@ public class ReviewController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ReviewGetDto>> reviewList() {
-        List<Review> reviews = reviewRepository.findAll();
-        List<ReviewGetDto> result = reviews.stream()
-                .map(r -> new ReviewGetDto(r))
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(result);
+    public Page<ReviewGetDto> reviewList(@RequestParam(value = "page", required = false, defaultValue = "0") int page) {
+        Page<Review> paging = reviewService.findPagedReviews(page);
+        return new PageImpl<>(paging.stream()
+                .map(ReviewGetDto::new)
+                .collect(Collectors.toList()), paging.getPageable(), paging.getTotalElements());
     }
 
     @PostMapping("/heart")

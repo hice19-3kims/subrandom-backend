@@ -10,6 +10,9 @@ import kkkw.subrandom.exceptions.ReviewNotFoundException;
 import kkkw.subrandom.repository.HeartRepository;
 import kkkw.subrandom.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,6 +79,13 @@ public class ReviewService {
     public List<Review> findReviewsByScore() {
         if(!reviewRepository.findAll().isEmpty())
             return reviewRepository.findByScore();
+        else throw new ReviewNotFoundException();
+    }
+
+    public Page<Review> findPagedReviews(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        if(!reviewRepository.findAll(pageable).isEmpty())
+            return reviewRepository.findAll(pageable);
         else throw new ReviewNotFoundException();
     }
 }
