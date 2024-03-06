@@ -4,6 +4,7 @@ package kkkw.subrandom.service;
 import kkkw.subrandom.domain.Authority;
 import kkkw.subrandom.domain.Member;
 import kkkw.subrandom.dto.MemberDto;
+import kkkw.subrandom.exceptions.MemberNotFoundException;
 import kkkw.subrandom.repository.HeartRepository;
 import kkkw.subrandom.repository.MemberRepository;
 import kkkw.subrandom.repository.ReviewRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Component
 @Transactional(readOnly = true)
@@ -29,10 +31,6 @@ public class MemberService {
     public final RecipeRepository recipeRepository;
 
     private final PasswordEncoder passwordEncoder;
-
-    public Member findMember(Long memberId){
-            return memberRepository.findById(memberId).get();
-    }
 
     @Transactional
     public Member addMember(MemberDto memberDto) {
@@ -56,12 +54,24 @@ public class MemberService {
     }
 
     public Member findMemberWithAuthorities(String email) {
-        return memberRepository.findOneWithAuthoritiesByEmail(email).orElse(null);
+        Optional<Member> optionalMember = memberRepository
+                .findOneWithAuthoritiesByEmail(email);
+
+        if (optionalMember.isEmpty()){
+            throw new MemberNotFoundException();
+        }
+
+        return optionalMember.get();
     }
 
     public Member findMyMemberWithAuthorities() {
-        String email = SecurityUtil.getCurrentUserEmail();
-        return memberRepository.findOneWithAuthoritiesByEmail(email).orElse(null);
-    }
+        Optional<Member> optionalMember = memberRepository
+                .findOneWithAuthoritiesByEmail(SecurityUtil.getCurrentUserEmail());
 
+        if (optionalMember.isEmpty()){
+            throw new MemberNotFoundException();
+        }
+
+        return optionalMember.get();
+    }
 }
