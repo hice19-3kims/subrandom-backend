@@ -17,9 +17,9 @@ public class RecipeGetDto {
     private Long id;
     private String mainStuff;
     private String bread;
-    private List<String> cheeses = new ArrayList<>();
-    private List<String> sauces = new ArrayList<>();
-    private List<String> vegetables = new ArrayList<>();
+    private List<Long> cheeseIds = new ArrayList<>();
+    private List<Long> sauceIds = new ArrayList<>();
+    private List<Long> vegetableIds = new ArrayList<>();
 
     public RecipeGetDto(Recipe recipe) {
         id = recipe.getId();
@@ -27,12 +27,12 @@ public class RecipeGetDto {
         bread = recipe.getBread();
 
         List<RecipeCheese> recipeCheeses = recipe.getRecipeCheeses();
-        recipeCheeses.forEach(rc -> cheeses.add(rc.getCheese().getCheeseName()));
+        recipeCheeses.forEach(rc -> cheeseIds.add(rc.getCheese().getId()));
 
         List<RecipeSauce> recipeSauces = recipe.getRecipeSauces();
-        recipeSauces.forEach(rs -> sauces.add(rs.getSauce().getSauceName()));
+        recipeSauces.forEach(rs -> sauceIds.add(rs.getSauce().getId()));
 
         List<RecipeVegetable> recipeVegetables = recipe.getRecipeVegetables();
-        recipeVegetables.forEach(rv -> vegetables.add(rv.getVegetable().getVegetableName()));
+        recipeVegetables.forEach(rv -> vegetableIds.add(rv.getVegetable().getId()));
     }
 }
