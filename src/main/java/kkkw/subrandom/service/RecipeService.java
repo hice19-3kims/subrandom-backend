@@ -166,45 +166,33 @@ public class RecipeService {
         String pickedBread = breads.get(random.nextInt(6));
         String pickedMainStuff = mainStuffs.get(random.nextInt(17));
 
-        int number_of_sauce = random.nextInt(4);
-        List<Long> pickedSauces = new ArrayList<>();
-        Set<Integer> set1 = new HashSet<>();
-        for (int i = 0; i < number_of_sauce; i++) {
-            Integer newInt = random.nextInt(14)+1;
-            if(set1.contains(newInt) == false){
-                set1.add(newInt);
-                pickedSauces.add((long) newInt);
-            }
+        Set<Long> sauces = new HashSet<>();
+        for (int i = 0; i < random.nextInt(4); i++) {
+            int newInt = random.nextInt(14)+1;
+            if (sauces.contains((long) newInt)) i--;
+            sauces.add((long) newInt);
         }
 
-        int number_of_cheese = random.nextInt(3);
-        List<Long> pickedCheeses = new ArrayList<>();
-        Set<Integer> set2 = new HashSet<>();
-        for (int i = 0; i < number_of_cheese; i++) {
-            Integer newInt = random.nextInt(3)+1;
-            if(set2.contains(newInt) == false){
-                set2.add(newInt);
-                pickedCheeses.add((long) newInt);
-            }
+        Set<Long> cheeses = new HashSet<>();
+        for (int i = 0; i < random.nextInt(3); i++) {
+            int newInt = random.nextInt(3)+1;
+            if(cheeses.contains((long) newInt)) i--;
+            cheeses.add((long) newInt);
         }
 
-        int number_of_vegetable = random.nextInt(9);
-        List<Long> pickedVegetables = new ArrayList<>();
-        Set<Integer> set3 = new HashSet<>();
-        for (int i = 0; i < number_of_vegetable; i++) {
-            Integer newInt = random.nextInt(8)+1;
-            if(set3.contains(newInt) == false){
-                set3.add(newInt);
-                pickedVegetables.add((long) newInt);
-            }
+        Set<Long> vegetables = new HashSet<>();
+        for (int i = 0; i < random.nextInt(9); i++) {
+            int newInt = random.nextInt(8)+1;
+            if (vegetables.contains((long) newInt)) i--;
+            vegetables.add((long) newInt);
         }
 
         RecipeCreateDto result = RecipeCreateDto.builder()
                 .bread(pickedBread)
                 .mainStuff(pickedMainStuff)
-                .sauceIds(pickedSauces)
-                .cheeseIds(pickedCheeses)
-                .vegetableIds(pickedVegetables)
+                .sauceIds(sauces.stream().toList())
+                .cheeseIds(cheeses.stream().toList())
+                .vegetableIds(vegetables.stream().toList())
                 .build();
 
         return result;

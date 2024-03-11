@@ -16,9 +16,9 @@ public class ReviewGetDto {
     private Long id;
     private String mainStuff;
     private String bread;
-    private List<String> cheeses = new ArrayList<>();
-    private List<String> sauces = new ArrayList<>();
-    private List<String> vegetables = new ArrayList<>();
+    private List<Long> cheeseIds = new ArrayList<>();
+    private List<Long> sauceIds = new ArrayList<>();
+    private List<Long> vegetableIds = new ArrayList<>();
     private String comment;
     private Long hearts;
     private Float score;
@@ -29,13 +29,13 @@ public class ReviewGetDto {
         bread = review.getRecipe().getBread();
 
         List<RecipeCheese> recipeCheeses = review.getRecipe().getRecipeCheeses();
-        recipeCheeses.forEach(rc -> cheeses.add(rc.getCheese().getCheeseName()));
+        recipeCheeses.forEach(rc -> cheeseIds.add(rc.getCheese().getId()));
 
         List<RecipeSauce> recipeSauces = review.getRecipe().getRecipeSauces();
-        recipeSauces.forEach(rs -> sauces.add(rs.getSauce().getSauceName()));
+        recipeSauces.forEach(rs -> sauceIds.add(rs.getSauce().getId()));
 
         List<RecipeVegetable> recipeVegetables = review.getRecipe().getRecipeVegetables();
-        recipeVegetables.forEach(rv -> vegetables.add(rv.getVegetable().getVegetableName()));
+        recipeVegetables.forEach(rv -> vegetableIds.add(rv.getVegetable().getId()));
 
         hearts = review.getHeartCounts();
         comment = review.getComment();
