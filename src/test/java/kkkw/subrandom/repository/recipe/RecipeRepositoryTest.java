@@ -12,6 +12,8 @@ class RecipeRepositoryTest {
 
     @Autowired
     RecipeRepository recipeRepository;
+    @Autowired
+
 
     @Test
     @DisplayName("레시피 생성")

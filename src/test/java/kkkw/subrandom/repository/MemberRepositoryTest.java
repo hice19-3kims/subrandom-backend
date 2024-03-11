@@ -26,7 +26,7 @@ class MemberRepositoryTest {
 
     @Test
     @DisplayName("멤버 생성")
-    void createMember() {
+    void createMember() { //fixtureMonkey
         //given
         Member member1 = Member.builder()
                 .name("member1")
