@@ -5,11 +5,7 @@ import kkkw.subrandom.domain.Authority;
 import kkkw.subrandom.domain.Member;
 import kkkw.subrandom.dto.MemberDto;
 import kkkw.subrandom.exceptions.MemberNotFoundException;
-import kkkw.subrandom.repository.HeartRepository;
 import kkkw.subrandom.repository.MemberRepository;
-import kkkw.subrandom.repository.ReviewRepository;
-import kkkw.subrandom.repository.SaveRepository;
-import kkkw.subrandom.repository.recipe.RecipeRepository;
 import kkkw.subrandom.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,10 +21,6 @@ import java.util.Optional;
 public class MemberService {
 
     public final MemberRepository memberRepository;
-    public final SaveRepository saveRepository;
-    public final HeartRepository heartRepository;
-    public final ReviewRepository reviewRepository;
-    public final RecipeRepository recipeRepository;
 
     private final PasswordEncoder passwordEncoder;
 
