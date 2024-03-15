@@ -144,7 +144,7 @@ class MemberServiceTest {
         verify(memberRepository, Mockito.times(2)).findOneWithAuthoritiesByEmail(any());
     }
 
-    /* DB 접근 필요하므로 생략
+    /* DB 접근 필요하므로 생략함
 
     @Test
     @DisplayName("현재 로그인 중인 멤버 조회 로직 테스트")
