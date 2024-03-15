@@ -1,6 +1,5 @@
 package kkkw.subrandom.repository;
 
-import kkkw.subrandom.domain.Heart;
 import kkkw.subrandom.domain.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,10 +14,10 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r ORDER BY r.date DESC")
     List<Review> findByDate();
 
-    @Query("SELECT r FROM Review r ORDER BY r.heartCounts ASC")
+    @Query("SELECT r FROM Review r ORDER BY r.heartCounts DESC")
     List<Review> findByHeartCounts();
 
-    @Query("SELECT r FROM Review r ORDER BY r.score ASC")
+    @Query("SELECT r FROM Review r ORDER BY r.score DESC")
     List<Review> findByScore();
 
     Page<Review> findAll(Pageable pageable);

@@ -41,7 +41,7 @@ public class MemberController {
         List<Review> reviews = reviewService.findReviewsByMemberId(member.getId());
 
         List<ReviewGetDto> result = reviews.stream()
-                .map(r -> new ReviewGetDto(r))
+                .map(ReviewGetDto::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(result);
@@ -54,7 +54,7 @@ public class MemberController {
         List<Recipe> recipes = recipeService.findSavedRecipesByMemberId(member.getId());
 
         List<RecipeGetDto> result = recipes.stream()
-                .map(r -> new RecipeGetDto(r))
+                .map(RecipeGetDto::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(result);

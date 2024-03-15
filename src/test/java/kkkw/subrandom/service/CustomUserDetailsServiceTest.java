@@ -1,12 +1,12 @@
-package kkkw.subrandom.repository;
+package kkkw.subrandom.service;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SaveRepositoryTest {
+class CustomUserDetailsServiceTest {
 
     @Test
-    void findByMemberId() {
+    void loadUserByUsername() {
     }
 }
