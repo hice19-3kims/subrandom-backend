@@ -1,8 +1,6 @@
 package kkkw.subrandom.dto;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
@@ -11,9 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginDto {
-    @NotNull
+    @NotBlank
     private String email;
 
-    @NotNull
+    @NotBlank
     private String password;
 }
