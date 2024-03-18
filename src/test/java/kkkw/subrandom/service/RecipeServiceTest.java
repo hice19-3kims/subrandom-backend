@@ -1,3 +1,5 @@
+package kkkw.subrandom.service;
+
 import kkkw.subrandom.domain.Member;
 import kkkw.subrandom.domain.Save;
 import kkkw.subrandom.domain.recipe.Recipe;

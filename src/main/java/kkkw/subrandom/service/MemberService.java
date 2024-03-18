@@ -3,7 +3,7 @@ package kkkw.subrandom.service;
 
 import kkkw.subrandom.domain.Authority;
 import kkkw.subrandom.domain.Member;
-import kkkw.subrandom.dto.MemberDto;
+import kkkw.subrandom.dto.SignupDto;
 import kkkw.subrandom.exceptions.MemberNotFoundException;
 import kkkw.subrandom.repository.MemberRepository;
 import kkkw.subrandom.util.SecurityUtil;
@@ -25,8 +25,8 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public Member addMember(MemberDto memberDto) {
-        if (memberRepository.findOneWithAuthoritiesByEmail(memberDto.getEmail()).orElse(null) != null) {
+    public Member addMember(SignupDto signupDto) {
+        if (memberRepository.findOneWithAuthoritiesByEmail(signupDto.getEmail()).orElse(null) != null) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다.");
         }
 
@@ -35,9 +35,9 @@ public class MemberService {
                 .build();
 
         Member member = Member.builder()
-                .email(memberDto.getEmail())
-                .password(passwordEncoder.encode(memberDto.getPassword()))
-                .name(memberDto.getName())
+                .email(signupDto.getEmail())
+                .password(passwordEncoder.encode(signupDto.getPassword()))
+                .name(signupDto.getName())
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();

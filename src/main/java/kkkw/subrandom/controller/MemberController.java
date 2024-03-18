@@ -4,7 +4,8 @@ import jakarta.validation.Valid;
 import kkkw.subrandom.domain.Member;
 import kkkw.subrandom.domain.Review;
 import kkkw.subrandom.domain.recipe.Recipe;
-import kkkw.subrandom.dto.MemberDto;
+import kkkw.subrandom.dto.MemberGetDto;
+import kkkw.subrandom.dto.SignupDto;
 import kkkw.subrandom.dto.RecipeGetDto;
 import kkkw.subrandom.dto.ReviewGetDto;
 import kkkw.subrandom.service.MemberService;
@@ -28,10 +29,14 @@ public class MemberController {
     private final RecipeService recipeService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Member> memberAdd(
-            @Valid @RequestBody MemberDto memberDto
+    public ResponseEntity<MemberGetDto> memberAdd(
+            @Valid @RequestBody SignupDto signupDto
     ) {
-        return ResponseEntity.ok(memberService.addMember(memberDto));
+        Member member = memberService.addMember(signupDto);
+        return ResponseEntity.ok(MemberGetDto.builder()
+                .email(member.getEmail())
+                .name(member.getName())
+                .build());
     }
 
     @GetMapping("/me/reviews")
