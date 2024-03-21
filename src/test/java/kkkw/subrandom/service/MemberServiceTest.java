@@ -2,7 +2,7 @@ package kkkw.subrandom.service;
 
 import kkkw.subrandom.domain.Authority;
 import kkkw.subrandom.domain.Member;
-import kkkw.subrandom.dto.MemberDto;
+import kkkw.subrandom.dto.SignupDto;
 import kkkw.subrandom.exceptions.MemberNotFoundException;
 import kkkw.subrandom.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
@@ -44,12 +44,12 @@ class MemberServiceTest {
                 .authorityName("ROLE_USER")
                 .build();
 
-        MemberDto memberDto = new MemberDto("aaa@a.com", "1111", "aaa");
+        SignupDto signupDto = new SignupDto("aaa@a.com", "1111", "aaa");
 
         Member member = Member.builder()
-                .email(memberDto.getEmail())
-                .password(passwordEncoder.encode(memberDto.getPassword()))
-                .name(memberDto.getName())
+                .email(signupDto.getEmail())
+                .password(passwordEncoder.encode(signupDto.getPassword()))
+                .name(signupDto.getName())
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
@@ -63,7 +63,7 @@ class MemberServiceTest {
         });
 
         //when
-        Member result = memberService.addMember(memberDto);
+        Member result = memberService.addMember(signupDto);
 
         //then
         verify(memberRepository, Mockito.times(1)).save(any());
@@ -85,12 +85,12 @@ class MemberServiceTest {
                 .activated(true)
                 .build();
 
-        MemberDto memberDto = new MemberDto("aaa@a.com", "1111", "aaa");
+        SignupDto signupDto = new SignupDto("aaa@a.com", "1111", "aaa");
 
         Member member2 = Member.builder()
-                .email(memberDto.getEmail())
-                .password(passwordEncoder.encode(memberDto.getPassword()))
-                .name(memberDto.getName())
+                .email(signupDto.getEmail())
+                .password(passwordEncoder.encode(signupDto.getPassword()))
+                .name(signupDto.getName())
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
@@ -102,7 +102,7 @@ class MemberServiceTest {
 
         //when
         Throwable throwable = catchThrowable(() -> {
-            memberService.addMember(memberDto);
+            memberService.addMember(signupDto);
         });
 
         //then

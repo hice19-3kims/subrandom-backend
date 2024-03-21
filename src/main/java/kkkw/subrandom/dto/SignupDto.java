@@ -13,7 +13,7 @@ import java.util.Collections;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberDto {
+public class SignupDto {
 
     @NotBlank
     private String email;
