@@ -15,13 +15,6 @@ public class RecipeController {
 
     private final RecipeService recipeService;
 
-    @PostMapping("/create")
-    public ResponseEntity<Recipe> recipeAdd(
-            @Valid @RequestBody RecipeCreateDto recipeCreateDto
-    ) {
-        return ResponseEntity.ok(recipeService.addRecipe(recipeCreateDto));
-    }
-
     @GetMapping("/roulette")
     public ResponseEntity<RecipeCreateDto> recipeRoulette() {
         return ResponseEntity.ok(recipeService.generateRandomRecipe());
