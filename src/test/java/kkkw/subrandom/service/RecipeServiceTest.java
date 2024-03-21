@@ -1,3 +1,5 @@
+package kkkw.subrandom.service;
+
 import kkkw.subrandom.domain.Member;
 import kkkw.subrandom.domain.Save;
 import kkkw.subrandom.domain.recipe.Recipe;
@@ -14,7 +16,6 @@ import kkkw.subrandom.repository.recipe.RecipeRepository;
 import kkkw.subrandom.repository.recipechoice.CheeseRepository;
 import kkkw.subrandom.repository.recipechoice.SauceRepository;
 import kkkw.subrandom.repository.recipechoice.VegetableRepository;
-import kkkw.subrandom.service.RecipeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
